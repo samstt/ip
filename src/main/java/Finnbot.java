@@ -1,9 +1,8 @@
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Finnbot {
     private static final String line = "_*".repeat(60);
-    private static String[] tasks = new String[100];
+    private static Tasks[] tasks = new Tasks[100];
     private static int taskNumber = 0;
 
 
@@ -20,18 +19,44 @@ public class Finnbot {
         System.out.println(line);
     }
 
+//
+    public static void addToList(String task){
+        tasks[taskNumber] = new Tasks(task);
+        taskNumber++;
+    }
+
+    public static void listTasks(){
+        for (int i = 0; i < taskNumber; i++){
+            System.out.println(i+1 + ". " + tasks[i].getStatusIcon() + tasks[i].description);
+        }
+    }
+
     public static void botRespond() {
         Scanner in = new Scanner(System.in);
         String addedItem = "added: ";
         String responses;
         while (true) {
             responses = in.nextLine().trim().toLowerCase();
+            System.out.println(line);
             if (responses.equals("bye")) {
                 break;
             }
             else if (responses.equals("list")) {
+                System.out.println("here is your to-do list meow");
                 listTasks();
                 System.out.println(line);
+            } //error with marking task number --> NULLPOINTER EXCEPTION THROWN
+            else if (responses.startsWith("mark")){
+                int index = Integer.parseInt(responses.split(" ")[1]) - 1; //filter out the number in the string
+                tasks[index].setDone();
+                System.out.println("Meow! I marked this task as done:");
+                System.out.println(tasks[index].getStatusIcon() + responses);
+            } //error with unmarking --> NULLPOINTER EXCEPTION THROWN HERE TOO
+            else if (responses.startsWith("unmark")){
+                int index = Integer.parseInt(responses.split(" ")[1]) - 1; //filter out the number in the string
+                tasks[index].isDone = false;
+                System.out.println("Meow! You unmarked this task:");
+                System.out.println(tasks[index].getStatusIcon() + responses);
             }
             else {
                 addToList(responses);
@@ -41,17 +66,6 @@ public class Finnbot {
         }
     }
 
-    // add tasks to list
-    public static void addToList(String task){
-        tasks[taskNumber] = task;
-        taskNumber++;
-    }
-
-    public static void listTasks(){
-        for (int i = 0; i < taskNumber; i++){
-            System.out.println(i+1 + ": " + tasks[i]);
-        }
-    }
 
 
     public static void main(String[] args) {
