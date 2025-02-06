@@ -31,6 +31,8 @@ public class Finnbot {
         }
     }
 
+   // public static void markTask(int index)
+
     public static void botRespond() {
         Scanner in = new Scanner(System.in);
         String addedItem = "added: ";
@@ -45,18 +47,18 @@ public class Finnbot {
                 System.out.println("here is your to-do list meow");
                 listTasks();
                 System.out.println(line);
-            } //error with marking task number --> NULLPOINTER EXCEPTION THROWN
+            }
             else if (responses.startsWith("mark")){
                 int index = Integer.parseInt(responses.split(" ")[1]) - 1; //filter out the number in the string
                 tasks[index].setDone();
                 System.out.println("Meow! I marked this task as done:");
-                System.out.println(tasks[index].getStatusIcon() + responses);
-            } //error with unmarking --> NULLPOINTER EXCEPTION THROWN HERE TOO
+                System.out.println(tasks[index].getStatusIcon() + tasks[index].description);
+            }
             else if (responses.startsWith("unmark")){
                 int index = Integer.parseInt(responses.split(" ")[1]) - 1; //filter out the number in the string
                 tasks[index].isDone = false;
                 System.out.println("Meow! You unmarked this task:");
-                System.out.println(tasks[index].getStatusIcon() + responses);
+                System.out.println(tasks[index].getStatusIcon() + tasks[index].description);
             }
             else {
                 addToList(responses);

@@ -21,20 +21,6 @@ public class Tasks {
 }
 
 
-   /* add tasks to list
-    public static void addToList(String task){
-        tasks[taskNumber] = task;
-        taskNumber++;
-    }
 
-    public static void listTasks(){
-        for (int i = 0; i < taskNumber; i++){
-            System.out.println(i+1 + ": " + tasks[i]);
-        }
-    }
-
-
-
-    */
 
 
