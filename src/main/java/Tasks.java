@@ -13,8 +13,14 @@ public class Tasks {
 
 
     public String getStatusIcon() {
-        return (isDone ? "[X] " : "[ ] "); // mark done task with X
+        return (isDone ? "[X] " : "[ ] ");
     }
+
+
+    public String toString() {
+        return getStatusIcon() + " " + description;
+    }
+
 
 
 
