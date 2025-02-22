@@ -42,8 +42,6 @@ public class Finnbot {
 
 
 
-
-    // list tasks
     public static void listTasks(){
         for (int i = 0; i < taskNumber; i++){
             System.out.println(i+1 + ". " + tasks[i].toString());
