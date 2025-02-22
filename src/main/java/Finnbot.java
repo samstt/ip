@@ -50,7 +50,6 @@ public class Finnbot {
         }
     }
 
-   // public static void markTask(int index)
 
     public static void botRespond() {
         Scanner in = new Scanner(System.in);
