@@ -20,30 +20,30 @@ public class Finnbot {
     }
 
 //initialise new task object and add to existing array of tasks
-    public static void addToList(String task){
+    public static void addToList(String task) {
         tasks[taskNumber] = new Tasks(task);
         taskNumber++;
     }
 
-    public static void addToDos(String task){
+    public static void addToDos(String task) {
         tasks[taskNumber] = new ToDos(task);
         taskNumber++;
     }
 
-    public static void addDeadline(String task, String by){
+    public static void addDeadline(String task, String by) {
         tasks[taskNumber] = new Deadlines(task, by);
         taskNumber++;
     }
 
-    public static void addEvents(String task, String startTime, String endTime){
+    public static void addEvents(String task, String startTime, String endTime) {
         tasks[taskNumber] = new Events(task, startTime, endTime);
         taskNumber++;
     }
 
 
 
-    public static void listTasks(){
-        for (int i = 0; i < taskNumber; i++){
+    public static void listTasks() {
+        for (int i = 0; i < taskNumber; i++) {
             System.out.println(i+1 + ". " + tasks[i].toString());
         }
     }
@@ -64,13 +64,13 @@ public class Finnbot {
                 listTasks();
                 System.out.println(line);
             }
-            else if (responses.startsWith("mark")){
+            else if (responses.startsWith("mark")) {
                 int index = Integer.parseInt(responses.split(" ")[1]) - 1; //filter out the number in the string
                 tasks[index].setDone();
                 System.out.println("Meow! I marked this task as done:");
                 System.out.println(tasks[index].toString());
             }
-            else if (responses.startsWith("unmark")){
+            else if (responses.startsWith("unmark")) {
                 int index = Integer.parseInt(responses.split(" ")[1]) - 1; //filter out the number in the string
                 tasks[index].isDone = false;
                 System.out.println("Meow! You unmarked this task:");

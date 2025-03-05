@@ -1,10 +1,11 @@
-# Duke User Guide
+# Finnbot User Guide
 
-// Update the title above to match the actual product name
+Finnbot User Guide
 
 // Product screenshot goes here
 
-// Product intro goes here
+Finnbot is a Personal Assistant Chatbot that helps a person to keep track of various tasks, events and deadlines.
+Finnbot is named after my beloved 7 year old Ragdoll cat. 
 
 ## Adding deadlines
 

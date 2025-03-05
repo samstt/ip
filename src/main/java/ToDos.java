@@ -1,4 +1,4 @@
-public class ToDos extends Tasks{
+public class ToDos extends Tasks {
     //constructor for ToDos class
     public ToDos(String description) {
         super(description);

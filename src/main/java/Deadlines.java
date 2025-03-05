@@ -7,7 +7,7 @@ public class Deadlines extends Tasks {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "[D]" + super.toString() + "(by:" + by + ")";
     }
 }
