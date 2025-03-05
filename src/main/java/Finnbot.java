@@ -79,7 +79,6 @@ public class Finnbot {
             String[] splitResponses = responses.split(" ");
             String command = splitResponses[0].toLowerCase();
 
-
             switch (command) {
             case "bye":
                 return;
