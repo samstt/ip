@@ -34,6 +34,16 @@ public class Finnbot {
         taskNumber++;
     }
 
+    //task index is 1 more than array
+    public static void deleteTask(int taskIndex) {
+        for (int i = taskIndex; i < taskNumber - 1; i++) {
+            tasks[i] = tasks[i + 1];
+        }
+        tasks[taskNumber - 1] = null;
+        taskNumber--;
+        System.out.println("Now you have " + taskNumber + " tasks in your list!");
+    }
+
     public static void listTasks() {
         for (int i = 0; i < taskNumber; i++) {
             System.out.println(i+1 + ". " + tasks[i].toString());
@@ -107,6 +117,15 @@ public class Finnbot {
         }
     }
 
+    public static void deleteHandler(String response) {
+        try {
+            int taskIndex = Integer.parseInt(response.split(" ")[1]) - 1 ;
+            deleteTask(taskIndex);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("Uh oh! The task number you have given is invalid!");
+        }
+    }
+
     public static void inputValidator (String response) throws EmptyInputException, InvalidCommandException {
         if (response.trim().isEmpty()) {
             throw new EmptyInputException("Uh oh, you didn't type anything in so why don't you add something!");
@@ -165,6 +184,11 @@ public class Finnbot {
 
             case "unmark":
                taskMarker(response, false);
+                break;
+
+            case "delete":
+                deleteHandler(response);
+                listTasks();
                 break;
 
             case "todo":
