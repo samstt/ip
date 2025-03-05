@@ -19,14 +19,6 @@ public class Finnbot {
         System.out.println(line);
     }
 
-/*initialise new task object and add to existing array of tasks
-    public static void addToList(String task) {
-        tasks[taskNumber] = new Tasks(task);
-        taskNumber++;
-    }
-
- */
-
     public static void addToDos(String task) {
         tasks[taskNumber] = new ToDos(task);
         taskNumber++;
