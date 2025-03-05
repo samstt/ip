@@ -13,12 +13,12 @@ public class Tasks {
 
 
     public String getStatusIcon() {
-        return (isDone ? "[X] " : "[ ] ");
+        return (isDone ? "[X]" : "[ ]");
     }
 
 
     public String toString() {
-        return getStatusIcon() + " " + description;
+        return getStatusIcon() + description;
     }
 
 
