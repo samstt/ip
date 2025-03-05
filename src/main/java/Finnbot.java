@@ -94,7 +94,7 @@ public class Finnbot {
             addDeadline(deadline.description, by);
             System.out.println(deadline);
             System.out.println(line);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             System.out.println("Deadline format should be: deadline [description] /by [date], why don't you try it again?");
         }
     }
@@ -110,14 +110,30 @@ public class Finnbot {
             addEvents(events.description, start, end);
             System.out.println(events);
             System.out.println(line);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             System.out.println("Event format should be: event [description] /from [start] /to [end] , why don't you try again? :3");
         }
     }
 
-    public static void inputValidator (String response) throws EmptyInputException {
+    public static void inputValidator (String response) throws EmptyInputException, InvalidCommandException {
         if (response.trim().isEmpty()) {
             throw new EmptyInputException("Uh oh, you didn't type anything in so why don't you add something!");
+        }
+
+        String[] validCommands = {"todo", "deadline", "event", "list", "mark", "unmark", "bye"};
+        String command = response.split(" ")[0].toLowerCase();
+
+        boolean isValidCommand = false;
+        for (String validCommand : validCommands) {
+            if (validCommand.equals(command)) {
+                isValidCommand = true;
+            } else {
+                break;
+            }
+        }
+
+        if (!isValidCommand) {
+            throw new InvalidCommandException("Meooow :( I don't think I understand what you mean, input a valid command instead");
         }
     }
     //problem with default handler
@@ -125,7 +141,7 @@ public class Finnbot {
         try {
             inputValidator(response);
 
-        } catch (EmptyInputException e) {
+        } catch (EmptyInputException | InvalidCommandException e) {
             System.out.println(e.getMessage());
         }
     }
