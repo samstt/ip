@@ -41,7 +41,6 @@ public class Finnbot {
         }
         tasks[taskNumber - 1] = null;
         taskNumber--;
-        System.out.println("Now you have " + taskNumber + " tasks in your list!");
     }
 
     public static void listTasks() {
@@ -120,7 +119,10 @@ public class Finnbot {
     public static void deleteHandler(String response) {
         try {
             int taskIndex = Integer.parseInt(response.split(" ")[1]) - 1 ;
+            System.out.println("Noted! I've removed this task for you:");
+            System.out.println(tasks[taskIndex]);
             deleteTask(taskIndex);
+            System.out.println("Now you have " + taskNumber + " tasks in your list!");
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             System.out.println("Uh oh! The task number you have given is invalid!");
         }
@@ -188,7 +190,6 @@ public class Finnbot {
 
             case "delete":
                 deleteHandler(response);
-                listTasks();
                 break;
 
             case "todo":
