@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Finnbot {
@@ -61,6 +62,7 @@ public class Finnbot {
                 System.out.println("Meow! You unmarked this task:");
             }
             System.out.println(tasks[taskIndex].toString());
+            Storage.saveFile(tasks, new File(Storage.FILEPATH));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Uh oh! The task number you have given me isn't in the list!");
         } catch (NumberFormatException e) {
@@ -78,6 +80,7 @@ public class Finnbot {
             }
             Tasks todo = new ToDos(description);
             addToDos(todo.description);
+            Storage.saveFile(tasks, new File(Storage.FILEPATH));
             System.out.println(todo);
             System.out.println(line);
         } catch (IllegalArgumentException e) {
@@ -93,6 +96,7 @@ public class Finnbot {
             String by = deadlineParts[1];
             Tasks deadline = new Deadlines(deadlineDescription, by);
             addDeadline(deadline.description, by);
+            Storage.saveFile(tasks, new File(Storage.FILEPATH));
             System.out.println(deadline);
             System.out.println(line);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
@@ -102,13 +106,14 @@ public class Finnbot {
 
     public static void eventHandler(String response) {
         try {
-            response = response.replaceFirst("events", "");
+            response = response.replaceFirst("event", "");
             String[] parts = response.split("/from|/to");
             String eventDescription = parts[0];
             String start = parts[1];
             String end = parts[2];
             Tasks events = new Events(eventDescription, start, end);
             addEvents(events.description, start, end);
+            Storage.saveFile(tasks, new File(Storage.FILEPATH));
             System.out.println(events);
             System.out.println(line);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
@@ -149,7 +154,7 @@ public class Finnbot {
             throw new InvalidCommandException("Meooow :( I don't think I understand what you mean, input a valid command instead");
         }
     }
-    //problem with default handler
+
     public static void defaultHandler(String response) {
         try {
             inputValidator(response);
@@ -159,6 +164,17 @@ public class Finnbot {
         }
     }
 
+
+    public static void fileToTaskLoader() {
+        tasks = Storage.loadFile("./data.txt");
+        for (Tasks task : tasks) {
+            if (task != null) {
+                taskNumber++;
+            } else {
+                break; // Since the array is sequential, stop when we hit null
+            }
+        }
+    }
 
     public static void botRespond() {
         Scanner in = new Scanner(System.in);
@@ -215,6 +231,8 @@ public class Finnbot {
 
 
     public static void main(String[] args) {
+        Storage.createFile();
+        fileToTaskLoader();
         greetUser();
         botRespond();
         goodbye();

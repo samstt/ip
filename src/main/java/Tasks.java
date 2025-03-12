@@ -11,6 +11,10 @@ public class Tasks {
         this.isDone = true;
     }
 
+    public boolean getIsDone() {
+        return this.isDone;
+    }
+
 
     public String getStatusIcon() {
         return (isDone ? "[X]" : "[ ]");
@@ -18,13 +22,15 @@ public class Tasks {
 
 
     public String toString() {
-        return getStatusIcon() + description;
+        return getStatusIcon() + " " + description;
     }
 
-
-
+    public String toFileString() {
+        return "";
+    }
 
 }
+
 
 
 
