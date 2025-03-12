@@ -11,6 +11,11 @@ public class Events extends Tasks {
 
     @Override
     public String toString() {
-        return "[E]" + getStatusIcon() +  " " + description +"(from:" + startTime + ", to:" + endTime + ")";
+        return "[E]" + getStatusIcon() + description +"(from:" + startTime + ", to:" + endTime + ")";
+    }
+
+    @Override
+    public String toFileString() {
+        return "E | " + (getIsDone() ? "1" : "0") + " | " + description + " | " + startTime + "to" + endTime;
     }
 }

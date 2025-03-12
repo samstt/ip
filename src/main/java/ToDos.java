@@ -8,4 +8,8 @@ public class ToDos extends Tasks {
     public String toString() {
         return "[T]" + super.toString();
     }
+
+    public String toFileString() {
+        return "T | " + (getIsDone() ? "1" : "0") + " |  " + description;
+    }
 }
