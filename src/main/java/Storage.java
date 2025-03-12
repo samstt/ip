@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Storage {
     public static final String FILEPATH = "./data.txt";
@@ -16,16 +18,8 @@ public class Storage {
         }
     }
 
-    public static void deleteFile() {
-        File f = new File(FILEPATH);
-        if (f.delete()) {
-            System.out.println("File deleted: " + f.getAbsolutePath());
-        } else {
-            System.out.println("File could not be deleted: " + f.getAbsolutePath());
-        }
-    }
 
-    public static void saveFile(Tasks[] tasks, File file) {
+    public static void saveFile(List<Tasks> tasks, File file) {
         try {BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for (Tasks task : tasks) {
                 if (task != null) {
@@ -39,25 +33,23 @@ public class Storage {
     }
 
 
-    public static Tasks[] loadFile(String filename) {
+    public static List<Tasks> loadFile(String filename) {
         File file = new File(filename);
+        List<Tasks> tasksList = new ArrayList<>();
         if (!file.exists()) {
             System.out.println("No save file found! We'll start with a new list!");
-            return new Tasks[100];
+            return tasksList;
         }
 
-        Tasks[] tasks = new Tasks[100];
-        int index = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(FILEPATH))) {
             String line;
-            while ((line = br.readLine()) != null && index < tasks.length) {
-                tasks[index] = parseTask(line);
-                index++;
+            while ((line = br.readLine()) != null) {
+                tasksList.add(parseTask(line));
             }
         } catch (IOException e) {
             System.out.println("Error loading file...");
         }
-        return tasks;
+        return tasksList;
     }
 
 

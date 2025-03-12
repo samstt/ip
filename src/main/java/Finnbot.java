@@ -1,10 +1,11 @@
 import java.io.File;
 import java.util.Scanner;
+import java.util.List;
+
 
 public class Finnbot {
     private static final String line = "_*".repeat(60);
-    private static Tasks[] tasks = new Tasks[100];
-    private static int taskNumber = 0;
+    private static List<Tasks> tasks;
 
 
     public static void greetUser() {
@@ -21,32 +22,25 @@ public class Finnbot {
     }
 
     public static void addToDos(String task) {
-        tasks[taskNumber] = new ToDos(task);
-        taskNumber++;
+        tasks.add(new ToDos(task));
     }
 
     public static void addDeadline(String task, String by) {
-        tasks[taskNumber] = new Deadlines(task, by);
-        taskNumber++;
+        tasks.add(new Deadlines(task, by));
     }
 
     public static void addEvents(String task, String startTime, String endTime) {
-        tasks[taskNumber] = new Events(task, startTime, endTime);
-        taskNumber++;
+        tasks.add(new Events(task, startTime, endTime));
     }
 
     //task index is 1 more than array
     public static void deleteTask(int taskIndex) {
-        for (int i = taskIndex; i < taskNumber - 1; i++) {
-            tasks[i] = tasks[i + 1];
-        }
-        tasks[taskNumber - 1] = null;
-        taskNumber--;
+        tasks.remove(taskIndex);
     }
 
     public static void listTasks() {
-        for (int i = 0; i < taskNumber; i++) {
-            System.out.println(i+1 + ". " + tasks[i].toString());
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(i+1 + ". " + tasks.get(i).toString());
         }
     }
 
@@ -55,13 +49,13 @@ public class Finnbot {
             int taskIndex = Integer.parseInt(responses.split(" ")[1]) - 1;
 
             if (isMarked) {
-                tasks[taskIndex].setDone();
+                tasks.get(taskIndex).setDone();
                 System.out.println("Meow! I marked this task as done:");
             } else {
-                tasks[taskIndex].isDone = false;
+                tasks.get(taskIndex).isDone = false;
                 System.out.println("Meow! You unmarked this task:");
             }
-            System.out.println(tasks[taskIndex].toString());
+            System.out.println(tasks.get(taskIndex).toString());
             Storage.saveFile(tasks, new File(Storage.FILEPATH));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Uh oh! The task number you have given me isn't in the list!");
@@ -125,10 +119,10 @@ public class Finnbot {
         try {
             int taskIndex = Integer.parseInt(response.split(" ")[1]) - 1 ;
             System.out.println("Noted! I've removed this task for you:");
-            System.out.println(tasks[taskIndex]);
+            System.out.println(tasks.get(taskIndex));
             deleteTask(taskIndex);
             Storage.saveFile(tasks, new File(Storage.FILEPATH));
-            System.out.println("Now you have " + taskNumber + " tasks in your list!");
+            System.out.println("Now you have " + tasks.size() + " tasks in your list!");
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             System.out.println("Uh oh! The task number you have given is invalid!");
         }
@@ -167,14 +161,7 @@ public class Finnbot {
 
 
     public static void fileToTaskLoader() {
-        tasks = Storage.loadFile("./data.txt");
-        for (Tasks task : tasks) {
-            if (task != null) {
-                taskNumber++;
-            } else {
-                break; // Since the array is sequential, stop when we hit null
-            }
-        }
+       tasks = Storage.loadFile("./data.txt");
     }
 
     public static void botRespond() {
