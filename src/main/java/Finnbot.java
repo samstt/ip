@@ -127,6 +127,7 @@ public class Finnbot {
             System.out.println("Noted! I've removed this task for you:");
             System.out.println(tasks[taskIndex]);
             deleteTask(taskIndex);
+            Storage.saveFile(tasks, new File(Storage.FILEPATH));
             System.out.println("Now you have " + taskNumber + " tasks in your list!");
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             System.out.println("Uh oh! The task number you have given is invalid!");
