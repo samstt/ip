@@ -1,11 +1,12 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
     public static final String FILEPATH = "./data.txt";
 
-    public static void createFile() {
+    public Storage() {
         try {
             File f = new File(FILEPATH);
             if (f.createNewFile()) {
@@ -19,9 +20,9 @@ public class Storage {
     }
 
 
-    public static void saveFile(List<Tasks> tasks, File file) {
+    public static void saveFile(TasksList tasks, File file) {
         try {BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for (Tasks task : tasks) {
+            for (Tasks task : tasks.getTasksList()) {
                 if (task != null) {
                     bw.write(task.toFileString() + System.lineSeparator());
                 }
@@ -33,9 +34,9 @@ public class Storage {
     }
 
 
-    public static List<Tasks> loadFile(String filename) {
+    public static ArrayList<Tasks> loadFile(String filename) {
         File file = new File(filename);
-        List<Tasks> tasksList = new ArrayList<>();
+        ArrayList<Tasks> tasksList = new ArrayList<>();
         if (!file.exists()) {
             System.out.println("No save file found! We'll start with a new list!");
             return tasksList;

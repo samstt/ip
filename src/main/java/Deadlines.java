@@ -13,6 +13,6 @@ public class Deadlines extends Tasks {
 
     @Override
     public String toFileString() {
-        return "D | " + (getIsDone() ? "1" : "0") + " |  " + description + " | " + by;
+        return "D | " + (getIsDone() ? "1" : "0") + " | " + description + " | " + by;
     }
 }

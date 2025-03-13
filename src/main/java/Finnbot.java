@@ -5,213 +5,40 @@ import java.util.List;
 
 public class Finnbot {
     private static final String line = "_*".repeat(60);
-    private static List<Tasks> tasks;
+    private static Ui ui;
+    private Storage storage;
+    private static TasksList tasks;
 
-
-    public static void greetUser() {
-        String greeting = "Meow! I'm Finnbot!" + System.lineSeparator() + "How can I help you?";
-        System.out.println(line);
-        System.out.println(greeting);
-        System.out.println(line);
+    public Finnbot(String filePath) {
+        ui = new Ui();
+        storage = new Storage();
+        tasks = new TasksList(filePath);
     }
 
-    public static void goodbye() {
-        String goodbye = "Purr.. Hope to see you again soon :3";
-        System.out.println(goodbye);
-        System.out.println(line);
-    }
+    public void run() {
+        ui.greetUser();
+        ui.printLine();
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String fullCommand = ui.readCommand();
+                ui.printLine();
+                Command c = Parser.parse(fullCommand);
 
-    public static void addToDos(String task) {
-        tasks.add(new ToDos(task));
-    }
-
-    public static void addDeadline(String task, String by) {
-        tasks.add(new Deadlines(task, by));
-    }
-
-    public static void addEvents(String task, String startTime, String endTime) {
-        tasks.add(new Events(task, startTime, endTime));
-    }
-
-    //task index is 1 more than array
-    public static void deleteTask(int taskIndex) {
-        tasks.remove(taskIndex);
-    }
-
-    public static void listTasks() {
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(i+1 + ". " + tasks.get(i).toString());
-        }
-    }
-
-    public static void taskMarker(String responses, boolean isMarked) {
-        try {
-            int taskIndex = Integer.parseInt(responses.split(" ")[1]) - 1;
-
-            if (isMarked) {
-                tasks.get(taskIndex).setDone();
-                System.out.println("Meow! I marked this task as done:");
-            } else {
-                tasks.get(taskIndex).isDone = false;
-                System.out.println("Meow! You unmarked this task:");
-            }
-            System.out.println(tasks.get(taskIndex).toString());
-            Storage.saveFile(tasks, new File(Storage.FILEPATH));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Uh oh! The task number you have given me isn't in the list!");
-        } catch (NumberFormatException e) {
-            System.out.println("Uh oh! The task number you have given is invalid!");
-        } catch (NullPointerException e) {
-            System.out.println("There are no tasks in your list yet.. Why don't you add some first");
-        }
-    }
-
-    public static void todoHandler(String response) {
-        try {
-            String description = response.replaceFirst("todo", "").trim();
-            if (description.isEmpty()) {
-                throw new IllegalArgumentException("Todo description is empty, why don't you add something :3");
-            }
-            Tasks todo = new ToDos(description);
-            addToDos(todo.description);
-            Storage.saveFile(tasks, new File(Storage.FILEPATH));
-            System.out.println(todo);
-            System.out.println(line);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Uh oh! The description you have given is invalid!");
-        }
-    }
-
-    public static void deadlineHandler(String response) {
-        try {
-            String description = response.replaceFirst("deadline", "").trim();
-            String[] deadlineParts = description.split("/by");
-            String deadlineDescription = deadlineParts[0];
-            String by = deadlineParts[1];
-            Tasks deadline = new Deadlines(deadlineDescription, by);
-            addDeadline(deadline.description, by);
-            Storage.saveFile(tasks, new File(Storage.FILEPATH));
-            System.out.println(deadline);
-            System.out.println(line);
-        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Deadline format should be: deadline [description] /by [date], why don't you try it again?");
-        }
-    }
-
-    public static void eventHandler(String response) {
-        try {
-            response = response.replaceFirst("event", "");
-            String[] parts = response.split("/from|/to");
-            String eventDescription = parts[0];
-            String start = parts[1];
-            String end = parts[2];
-            Tasks events = new Events(eventDescription, start, end);
-            addEvents(events.description, start, end);
-            Storage.saveFile(tasks, new File(Storage.FILEPATH));
-            System.out.println(events);
-            System.out.println(line);
-        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Event format should be: event [description] /from [start] /to [end] , why don't you try again? :3");
-        }
-    }
-
-    public static void deleteHandler(String response) {
-        try {
-            int taskIndex = Integer.parseInt(response.split(" ")[1]) - 1 ;
-            System.out.println("Noted! I've removed this task for you:");
-            System.out.println(tasks.get(taskIndex));
-            deleteTask(taskIndex);
-            Storage.saveFile(tasks, new File(Storage.FILEPATH));
-            System.out.println("Now you have " + tasks.size() + " tasks in your list!");
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
-            System.out.println("Uh oh! The task number you have given is invalid!");
-        }
-    }
-
-    public static void inputValidator (String response) throws EmptyInputException, InvalidCommandException {
-        if (response.trim().isEmpty()) {
-            throw new EmptyInputException("Uh oh, you didn't type anything in so why don't you add something!");
-        }
-
-        String[] validCommands = {"todo", "deadline", "event", "list", "mark", "unmark", "bye"};
-        String command = response.split(" ")[0].toLowerCase();
-
-        boolean isValidCommand = false;
-        for (String validCommand : validCommands) {
-            if (validCommand.equals(command)) {
-                isValidCommand = true;
-            } else {
-                break;
-            }
-        }
-
-        if (!isValidCommand) {
-            throw new InvalidCommandException("Meooow :( I don't think I understand what you mean, input a valid command instead");
-        }
-    }
-
-    public static void defaultHandler(String response) {
-        try {
-            inputValidator(response);
-
-        } catch (EmptyInputException | InvalidCommandException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-
-    public static void fileToTaskLoader() {
-       tasks = Storage.loadFile("./data.txt");
-    }
-
-    public static void botRespond() {
-        Scanner in = new Scanner(System.in);
-        String response;
-
-        while (true) {
-            response = in.nextLine().trim().toLowerCase();
-            System.out.println(line);
-            String[] splitResponses = response.split(" ");
-            String command = splitResponses[0].toLowerCase();
-
-            switch (command) {
-            case "bye":
-                return;
-
-            case "list":
-                System.out.println("here is your to-do list meow");
-                listTasks();
-                System.out.println(line);
-                break;
-
-            case "mark":
-                taskMarker(response, true);
-                break;
-
-            case "unmark":
-               taskMarker(response, false);
-                break;
-
-            case "delete":
-                deleteHandler(response);
-                break;
-
-            case "todo":
-                todoHandler(response);
-                break;
-
-            case "deadline":
-                deadlineHandler(response);
-                break;
-
-            case "event":
-                eventHandler(response);
-                break;
-
-                default:
-                    defaultHandler(response);
-                    break;
-
+                if (c != null) {
+                    c.execute(tasks, ui, storage);
+                    isExit = c.isExit();
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                ui.showError("The given number is not within bounds meoww :3");
+            } catch (NumberFormatException e) {
+                ui.showError("Purr please try again");
+            } catch (IndexOutOfBoundsException e) {
+                ui.showError("HISSSS, you've given me an invalid command");
+            } catch (InvalidCommandException | EmptyInputException e) {
+                ui.showError(e.getMessage());
+            } finally {
+                ui.printLine();
             }
         }
     }
@@ -219,10 +46,6 @@ public class Finnbot {
 
 
     public static void main(String[] args) {
-        Storage.createFile();
-        fileToTaskLoader();
-        greetUser();
-        botRespond();
-        goodbye();
+       new Finnbot("./data.txt").run();
     }
 }

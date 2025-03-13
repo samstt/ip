@@ -6,7 +6,7 @@ public class ToDos extends Tasks {
 
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[T]" + getStatusIcon() + "  " + description;
     }
 
     public String toFileString() {
