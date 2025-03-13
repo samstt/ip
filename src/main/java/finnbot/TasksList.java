@@ -1,5 +1,8 @@
+package finnbot;
+
+import finnbot.tasks.Tasks;
+
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class TasksList {
@@ -31,6 +34,21 @@ public class TasksList {
         }
     }
 
+    public ArrayList<Tasks> keywordFinder(String keyword) {
+        ArrayList<Tasks> matchingTasks = new ArrayList<>();
+        String lowerCaseKeyword = keyword.toLowerCase();
+
+        for (Tasks task : tasks) {
+            String[] words = task.getDescription().toLowerCase().split("\\s+");
+            for (String word : words) {
+                if (word.equals(lowerCaseKeyword)) {
+                    matchingTasks.add(task);
+                    break;
+                }
+            }
+        }
+        return matchingTasks;
+    }
 
     public int size() {
         return tasks.size();
@@ -40,10 +58,6 @@ public class TasksList {
         return tasks;
     }
 
-    public void fileToTaskLoader() {
-        List<Tasks> loadedTasks = Storage.loadFile("./data.txt");
-        tasks.addAll(loadedTasks);
-    }
 
     public void taskMarker (int taskIndex, boolean isMarked) {
         if (taskIndex < 0 || taskIndex >= tasks.size()) {

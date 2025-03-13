@@ -1,10 +1,9 @@
-import java.io.File;
-import java.util.Scanner;
-import java.util.List;
-
+package finnbot;
+import finnbot.command.Command;
+import finnbot.exceptions.EmptyInputException;
+import finnbot.exceptions.InvalidCommandException;
 
 public class Finnbot {
-    private static final String line = "_*".repeat(60);
     private static Ui ui;
     private Storage storage;
     private static TasksList tasks;
@@ -25,10 +24,9 @@ public class Finnbot {
                 ui.printLine();
                 Command c = Parser.parse(fullCommand);
 
-                if (c != null) {
-                    c.execute(tasks, ui, storage);
-                    isExit = c.isExit();
-                }
+                c.execute(tasks, ui, storage);
+                isExit = c.isExit();
+
             } catch (ArrayIndexOutOfBoundsException e) {
                 ui.showError("The given number is not within bounds meoww :3");
             } catch (NumberFormatException e) {

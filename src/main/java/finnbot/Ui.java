@@ -1,3 +1,5 @@
+package finnbot;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -33,7 +35,5 @@ public class Ui {
     public void showMessage(String message) {
         System.out.println(message);
     }
-    public void showUserGuide () {
-        System.out.println("Purrr, try a new set of commands out!");
-    }
+
 }

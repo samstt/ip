@@ -1,3 +1,9 @@
+package finnbot.command;
+
+import finnbot.Storage;
+import finnbot.TasksList;
+import finnbot.Ui;
+
 public class ListCommand extends Command{
 
     public void execute(TasksList tasks, Ui ui, Storage storage) {

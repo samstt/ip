@@ -1,3 +1,7 @@
+package finnbot.command;
+
+import finnbot.*;
+
 public class ExitCommand extends Command {
 
     public void execute(TasksList tasks, Ui ui, Storage storage) {

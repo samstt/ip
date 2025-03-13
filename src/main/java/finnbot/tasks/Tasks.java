@@ -1,6 +1,8 @@
+package finnbot.tasks;
+
 public class Tasks {
     protected String description;
-    protected boolean isDone;
+    public boolean isDone;
 
     public Tasks(String description) {
         this.description = description;
@@ -29,6 +31,9 @@ public class Tasks {
         return "";
     }
 
+    public String getDescription() {
+        return description;
+    }
 }
 
 

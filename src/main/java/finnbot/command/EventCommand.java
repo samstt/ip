@@ -1,3 +1,9 @@
+package finnbot.command;
+import finnbot.Storage;
+import finnbot.TasksList;
+import finnbot.Ui;
+import finnbot.tasks.Events;
+
 import java.io.File;
 
 public class EventCommand extends Command {

@@ -1,3 +1,5 @@
+package finnbot.tasks;
+
 public class Events extends Tasks {
 
     protected String startTime;
