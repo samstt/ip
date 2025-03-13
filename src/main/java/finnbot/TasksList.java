@@ -1,7 +1,6 @@
 package finnbot;
 
 import finnbot.tasks.Tasks;
-
 import java.util.ArrayList;
 
 /**
@@ -56,7 +55,25 @@ public class TasksList {
         }
     }
 
-    /**
+
+    public ArrayList<Tasks> keywordFinder(String keyword) {
+        ArrayList<Tasks> matchingTasks = new ArrayList<>();
+        String lowerCaseKeyword = keyword.toLowerCase();
+
+        for (Tasks task : tasks) {
+            String[] words = task.getDescription().toLowerCase().split("\\s+");
+            for (String word : words) {
+                if (word.equals(lowerCaseKeyword)) {
+                    matchingTasks.add(task);
+                    break;
+                }
+            }
+        }
+        return matchingTasks;
+    }
+
+
+ /**
      * Returns the number of tasks in the tasks list.
      *
      * @return The size of the tasks list.
