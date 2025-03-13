@@ -2,7 +2,6 @@ package finnbot.command;
 import finnbot.Storage;
 import finnbot.TasksList;
 import finnbot.Ui;
-
 import java.io.File;
 
 public class DeleteCommand extends Command {

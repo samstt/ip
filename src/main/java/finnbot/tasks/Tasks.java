@@ -31,6 +31,9 @@ public class Tasks {
         return "";
     }
 
+    public String getDescription() {
+        return description;
+    }
 }
 
 

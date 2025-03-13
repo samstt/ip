@@ -76,6 +76,13 @@ public class Parser {
             String by = deadlineParts[1];
             return new DeadlineCommand(deadlineDescription, by);
 
+        case "find":
+            if (words.length < 2 || words[1].trim().isEmpty()) {
+                throw new InvalidCommandException("Meoww! You need to enter a keyword to search for :3");
+            }
+            String keyword = words[1].trim();
+            return new FindCommand(keyword);
+
         case "bye":
             return new ExitCommand();
 
