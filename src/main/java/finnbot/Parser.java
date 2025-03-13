@@ -4,6 +4,7 @@ import finnbot.command.*;
 import finnbot.exceptions.EmptyInputException;
 import finnbot.exceptions.InvalidCommandException;
 
+
 /**
  * Represents a command parser for processing user inputs in the Finnbot application.
  * This class is responsible for parsing the user's input and converting it into corresponding command objects
