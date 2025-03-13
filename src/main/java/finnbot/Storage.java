@@ -3,14 +3,22 @@ package finnbot;
 import finnbot.tasks.Events;
 import finnbot.tasks.Tasks;
 import finnbot.tasks.ToDos;
-
+import finnbot.tasks.Deadlines;
 import java.io.*;
 import java.util.ArrayList;
-import finnbot.tasks.Deadlines;
 
+/**
+ * Represents a storage system for saving and loading tasks in the Finnbot application.
+ * This class handles the creation of the save file, reading tasks from it, and writing tasks back into the file.
+ * The tasks are stored in a file formatted as plain text.
+ */
 public class Storage {
     public static final String FILEPATH = "./data.txt";
 
+    /**
+     * Constructs a new Storage object and creates a new file at the specified location if it doesn't exist.
+     * Prints a message indicating the file's creation status.
+     */
     public Storage() {
         try {
             File f = new File(FILEPATH);
@@ -24,7 +32,13 @@ public class Storage {
         }
     }
 
-
+    /**
+     * Saves the current list of tasks to a specified file.
+     * Writes each task's details to the file in a specific format.
+     *
+     * @param tasks The list of tasks to save.
+     * @param file The file to which the tasks will be written.
+     */
     public static void saveFile(TasksList tasks, File file) {
         try {BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for (Tasks task : tasks.getTasksList()) {
@@ -38,7 +52,13 @@ public class Storage {
         }
     }
 
-
+    /**
+     * Loads tasks from a file and returns them as an ArrayList.
+     * If the file does not exist, an empty task list is returned.
+     *
+     * @param filename The name of the file to load tasks from.
+     * @return An ArrayList containing the tasks loaded from the file.
+     */
     public static ArrayList<Tasks> loadFile(String filename) {
         File file = new File(filename);
         ArrayList<Tasks> tasksList = new ArrayList<>();
@@ -59,6 +79,14 @@ public class Storage {
     }
 
 
+    /**
+     * Parses a line from the saved file into a task object.
+     * Determines the task type (ToDos, Deadline, Event) based on the format in the file.
+     *
+     * @param line The line representing a task in the file.
+     * @return A Tasks object representing the parsed task.
+     * @throws IllegalArgumentException If the task format is invalid.
+     */
     private static Tasks parseTask(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length <= 2 ) {
@@ -80,7 +108,10 @@ public class Storage {
             break;
 
         case "E":
-            task = new Events(description, parts[2], parts[3]);
+            String[] splitTimes = parts[3].split("to");
+            String startTime = splitTimes[0];
+            String endTime = splitTimes[1];
+            task = new Events(description, startTime, endTime);
             break;
 
         default:

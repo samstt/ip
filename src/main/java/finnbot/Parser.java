@@ -4,9 +4,21 @@ import finnbot.command.*;
 import finnbot.exceptions.EmptyInputException;
 import finnbot.exceptions.InvalidCommandException;
 
+/**
+ * Represents a command parser for processing user inputs in the Finnbot application.
+ * This class is responsible for parsing the user's input and converting it into corresponding command objects
+ * that can be executed to perform specific actions within the task list.
+ */
 public class Parser {
 
-
+    /**
+     * Parses the user input into a command object based on the input string.
+     *
+     * @param input The user input command string.
+     * @return A corresponding {@link Command} object based on the parsed input.
+     * @throws InvalidCommandException If the input command is invalid or not recognized.
+     * @throws EmptyInputException If the input is missing required information (e.g., task descriptions).
+     */
     public static Command parse(String input) throws InvalidCommandException, EmptyInputException {
         String[] words = input.split(" ", 2);
         String commandType = words[0].toLowerCase();
