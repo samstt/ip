@@ -1,3 +1,5 @@
+package finnbot.tasks;
+
 public class Deadlines extends Tasks {
 
     protected String by;

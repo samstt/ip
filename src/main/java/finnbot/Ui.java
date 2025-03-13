@@ -1,3 +1,5 @@
+package finnbot;
+
 import java.util.Scanner;
 
 public class Ui {

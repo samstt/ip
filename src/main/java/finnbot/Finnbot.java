@@ -1,7 +1,7 @@
-import java.io.File;
-import java.util.Scanner;
-import java.util.List;
-
+package finnbot;
+import finnbot.command.Command;
+import finnbot.exceptions.EmptyInputException;
+import finnbot.exceptions.InvalidCommandException;
 
 public class Finnbot {
     private static final String line = "_*".repeat(60);

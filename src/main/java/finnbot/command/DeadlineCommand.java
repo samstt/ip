@@ -1,3 +1,9 @@
+package finnbot.command;
+
+import finnbot.Storage;
+import finnbot.TasksList;
+import finnbot.Ui;
+import finnbot.tasks.Deadlines;
 import java.io.File;
 
 public class DeadlineCommand extends Command {

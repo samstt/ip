@@ -1,7 +1,12 @@
+package finnbot;
+
+import finnbot.tasks.Events;
+import finnbot.tasks.Tasks;
+import finnbot.tasks.ToDos;
+
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import finnbot.tasks.Deadlines;
 
 public class Storage {
     public static final String FILEPATH = "./data.txt";

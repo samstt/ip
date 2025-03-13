@@ -1,3 +1,9 @@
+package finnbot.command;
+import finnbot.Storage;
+import finnbot.TasksList;
+import finnbot.Ui;
+import finnbot.tasks.ToDos;
+
 import java.io.File;
 
 public class ToDoCommand extends Command {

@@ -1,3 +1,7 @@
+package finnbot;
+
+import finnbot.tasks.Tasks;
+
 import java.util.ArrayList;
 import java.util.List;
 

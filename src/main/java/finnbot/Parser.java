@@ -1,3 +1,9 @@
+package finnbot;
+
+import finnbot.command.*;
+import finnbot.exceptions.EmptyInputException;
+import finnbot.exceptions.InvalidCommandException;
+
 public class Parser {
 
 
@@ -32,8 +38,10 @@ public class Parser {
             }
 
         case "todo":
-            if (words.length < 2) {
+            if (words.length < 2 ) {
                 throw new EmptyInputException("Todo format should be: todo [description]");
+            } else if (words[1].trim().isEmpty()) {
+                throw new EmptyInputException("HISSSS! Todo description cannot be empty!");
             }
             String todoDescription = words[1];
             return new ToDoCommand(todoDescription);
@@ -41,8 +49,12 @@ public class Parser {
         case "event":
             input = input.replaceFirst("event", "");
             String[] parts = input.split("/from|/to");
-            if (parts.length < 3) {
+            if (parts.length < 3 ) {
                 throw new InvalidCommandException("Event format should be: event [description] /from [start] /to [end] , why don't you try again? :3");
+            } else if (parts[0].trim().isEmpty()) {
+                throw new InvalidCommandException("HISSSS! Event description cannot be empty");
+            } else if (parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
+                throw new InvalidCommandException("HISSSS! Start time or end time cannot be empty");
             }
             String eventDescription = parts[0];
             String start = parts[1];
@@ -55,6 +67,10 @@ public class Parser {
             String[] deadlineParts = input.split("/by");
             if (deadlineParts.length < 2) {
                 throw new InvalidCommandException("Deadline format should be: deadline [description] /by [date], why don't you try it again?");
+            } else if (deadlineParts[0].trim().isEmpty()) {
+                throw new InvalidCommandException("HISSSS! Deadline description cannot be empty!!");
+            } else if (deadlineParts[1].trim().isEmpty()) {
+                throw new InvalidCommandException("HISSSS! Deadline date cannot be empty!!");
             }
             String deadlineDescription = deadlineParts[0];
             String by = deadlineParts[1];
