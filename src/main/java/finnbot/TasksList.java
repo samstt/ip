@@ -44,10 +44,6 @@ public class TasksList {
         return tasks;
     }
 
-    public void fileToTaskLoader() {
-        List<Tasks> loadedTasks = Storage.loadFile("./data.txt");
-        tasks.addAll(loadedTasks);
-    }
 
     public void taskMarker (int taskIndex, boolean isMarked) {
         if (taskIndex < 0 || taskIndex >= tasks.size()) {
