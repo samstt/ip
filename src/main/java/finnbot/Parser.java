@@ -4,6 +4,8 @@ import finnbot.command.*;
 import finnbot.exceptions.EmptyInputException;
 import finnbot.exceptions.InvalidCommandException;
 
+import java.util.Locale;
+
 /**
  * Represents a command parser for processing user inputs in the Finnbot application.
  * This class is responsible for parsing the user's input and converting it into corresponding command objects
@@ -59,7 +61,7 @@ public class Parser {
             return new ToDoCommand(todoDescription);
 
         case "event":
-            input = input.replaceFirst("event", "");
+            input = input.toLowerCase().replaceFirst("event", "");
             String[] parts = input.split("/from|/to");
             if (parts.length < 3 ) {
                 throw new InvalidCommandException("Event format should be: event [description] /from [start] /to [end] , why don't you try again? :3");
@@ -75,7 +77,7 @@ public class Parser {
 
 
         case "deadline":
-            input = input.replaceFirst("deadline", "");
+            input = input.toLowerCase().replaceFirst("deadline", "");
             String[] deadlineParts = input.split("/by");
             if (deadlineParts.length < 2) {
                 throw new InvalidCommandException("Deadline format should be: deadline [description] /by [date], why don't you try it again?");
