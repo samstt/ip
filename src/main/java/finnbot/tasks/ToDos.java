@@ -25,7 +25,7 @@ public class ToDos extends Tasks {
      */
     @Override
     public String toString() {
-        return "[T]" + getStatusIcon() + "  " + description;
+        return "[T]" + getStatusIcon() + " " + description.trim();
     }
 
     /**

@@ -95,7 +95,7 @@ public class Storage {
 
         String taskType = parts[0];
         boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String description = parts[2].trim();
         Tasks task;
 
         switch (taskType) {

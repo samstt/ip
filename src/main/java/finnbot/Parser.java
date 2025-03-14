@@ -56,7 +56,7 @@ public class Parser {
             } else if (words[1].trim().isEmpty()) {
                 throw new EmptyInputException("HISSSS! Todo description cannot be empty!");
             }
-            String todoDescription = words[1];
+            String todoDescription = words[1].trim();
             return new ToDoCommand(todoDescription);
 
         case "event":
@@ -69,7 +69,7 @@ public class Parser {
             } else if (parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
                 throw new InvalidCommandException("HISSSS! Start time or end time cannot be empty");
             }
-            String eventDescription = parts[0];
+            String eventDescription = parts[0].trim();
             String start = parts[1];
             String end = parts[2];
             return new EventCommand(eventDescription, start, end);
@@ -85,7 +85,7 @@ public class Parser {
             } else if (deadlineParts[1].trim().isEmpty()) {
                 throw new InvalidCommandException("HISSSS! Deadline date cannot be empty!!");
             }
-            String deadlineDescription = deadlineParts[0];
+            String deadlineDescription = deadlineParts[0].trim();
             String by = deadlineParts[1];
             return new DeadlineCommand(deadlineDescription, by);
 
